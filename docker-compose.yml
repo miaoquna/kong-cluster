@@ -1,0 +1,64 @@
+version: "3"
+services:
+  kong-database:
+    build: Service/PostgerSql/9.6/
+    image: postersql_9.6
+    container_name: kong-database
+    environment:
+      - POSTGRES_USER=kong
+      - POSTGRES_DB=kong
+      - POSTGRES_PASSWORD=kong
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./Data/PostgerSql/9.6:/var/lib/postgresql/data:rw
+    networks:   
+      - kong-network
+    restart: always  
+  kong:
+    image: kong:latest
+    container_name: kong
+    command : kong docker-start -c /etc/kong/kong.conf
+    environment:
+      - KONG_DATABASE=postgres
+      - KONG_PG_HOST=kong-database
+      - KONG_PG_USER=kong
+      - KONG_PG_PASSWORD=kong
+      - KONG_CASSANDRA_CONTACT_POINTS=kong-database
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+    volumes:
+      # 挂载文件目录 本地目录:容器目录:权限（ro-只读，rw-可读可写）
+      - ./Service/Kong/kong.conf:/etc/kong/kong.conf:rw
+    ports:
+      # http 代理端口
+      - "8000:8000"
+      # https 代理端口
+      - "8443:8443"
+      # http 管理接口
+      - "8001:8001"
+      # https 管理接口
+      - "8444:8444"
+    networks:   
+      - kong-network
+    restart: always
+    depends_on:
+      - kong-database
+  kong-dashboard:
+    image: pantsel/konga
+    container_name: kong-dashboard
+    ports:
+      - "1337:1337"
+    links: 
+      - kong
+    depends_on:
+      - kong
+    networks:   
+      - kong-network
+    restart: always
+networks:
+  kong-network:
+  
