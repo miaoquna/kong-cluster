@@ -58,8 +58,8 @@ Connection: keep-alive
 
 ### 1.2、通过ｋｏｎｇａ－ｗｅｂ界面添加服务
 
-![image](doc/image/addservices.png)
-![image](doc/image/addservices_1.png)
+![image](https://github.com/miaoquna/kong-cluster/blob/master/doc/image/addservices.png)
+![image](https://github.com/miaoquna/kong-cluster/blob/master/doc/image/addservices_1.png)
 
 ## 2、路由管理
 
@@ -104,9 +104,9 @@ Connection: keep-alive
 
 ### 2.2、通过接口通过ｋｏｎｇａ－ｗｅｂ界面添加路由
 
-![image](doc/image/routes_1.png)
-![image](doc/image/routes_2.png)
-![image](doc/image/routes_3.png)
+![image](https://github.com/miaoquna/kong-cluster/blob/master/doc/image/routes_1.png)
+![image](https://github.com/miaoquna/kong-cluster/blob/master/doc/image/routes_2.png)
+![image](https://github.com/miaoquna/kong-cluster/blob/master/doc/image/routes_3.png)
 
 ### 2.3、通过Kong转发请求
 
